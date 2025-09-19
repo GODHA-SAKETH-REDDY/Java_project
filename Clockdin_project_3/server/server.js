@@ -14,7 +14,7 @@ mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopol
 
 
 // Routes
-app.use('/api/auth', require('./routes/users'));
+app.use('/api/users', require('./routes/users'));
 app.use('/api/chatbot', require('./routes/chatbot'));
 app.use('/api/events', require('./routes/events'));
 

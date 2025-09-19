@@ -28,13 +28,18 @@ router.post('/', async (req, res) => {
     });
     const data = await geminiRes.json();
     if (!geminiRes.ok) {
-      console.error('Gemini API error:', data);
+      console.error('Gemini API error:', JSON.stringify(data, null, 2));
       return res.status(500).json({ msg: 'Gemini API error', error: data });
     }
     const reply = data.candidates?.[0]?.content?.parts?.[0]?.text || 'Sorry, I could not answer that.';
     res.json({ reply });
   } catch (err) {
     console.error('Server error in /api/chatbot:', err);
+    if (err.response) {
+      err.response.text().then(text => {
+        console.error('Gemini API error response:', text);
+      });
+    }
     res.status(500).json({ msg: 'Gemini API error', error: err.message });
   }
 });
